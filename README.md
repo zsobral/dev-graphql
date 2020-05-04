@@ -6,8 +6,8 @@ My GraphQL reference was this awesome book https://8bit.press/book/advanced-grap
 
 The GraphQL server is build with Apollo Federation, with three services
 
-- account: handle authentication with Auth0
-- profile: handle authenticated users profiles
-- content: handle users posts and medias
+- **account:** handle authentication with Auth0
+- **profile:** handle authenticated users profiles
+- **content:** handle users posts and medias
 
 app repo https://github.com/zsobral/dev-app
