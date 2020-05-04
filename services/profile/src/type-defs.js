@@ -21,7 +21,7 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createProfile(username: String!, fullName: String): Profile
+    createProfile(username: String!, fullName: String, accountId: ID!): Profile
   }
 `
 

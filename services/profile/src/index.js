@@ -6,6 +6,7 @@ const Profile = require('./models/profile')
 const ProfileDataSource = require('./profile-data-source')
 const typeDefs = require('./type-defs')
 const resolvers = require('./resolvers')
+const auth0 = require('./auth0')
 
 const server = new ApolloServer({
   schema: buildFederatedSchema([{ typeDefs, resolvers }]),
@@ -14,7 +15,7 @@ const server = new ApolloServer({
     return { user }
   },
   dataSources: () => ({
-    profileAPI: new ProfileDataSource({ Profile }),
+    profileAPI: new ProfileDataSource({ Profile, auth0 }),
   }),
 })
 

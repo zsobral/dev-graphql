@@ -5,7 +5,7 @@ const typeDefs = gql`
     id: ID!
     text: String!
     profile: Profile!
-    createdAt: Int!
+    createdAt: Float!
   }
 
   extend type Profile @key(fields: "id") {

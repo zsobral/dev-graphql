@@ -15,7 +15,6 @@
     "scalar": "^0.0.0"
   },
   "devDependencies": {
-    "node-fetch": "^2.6.0",
     "nodemon": "^2.0.3"
   }
 }

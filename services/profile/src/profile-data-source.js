@@ -5,10 +5,16 @@ class ProfileDataSource extends DataSource {
    *
    * @param {Object} param
    * @param {import('./models/profile')} param.Profile
+   * @param {import('auth0').ManagementClient} param.auth0
    */
-  constructor({ Profile }) {
+  constructor({ Profile, auth0 }) {
     super()
     this.Profile = Profile
+    this.auth0 = auth0
+  }
+
+  getUserById(id) {
+    return this.auth0.getUser({ id })
   }
 
   getProfileById(id) {
@@ -23,7 +29,9 @@ class ProfileDataSource extends DataSource {
     return this.Profile.find({}).exec()
   }
 
-  createProfile(profile) {
+  async createProfile(profile) {
+    const user = await this.auth0.getUser({ id: profile.accountId })
+    profile.avatar = user.picture
     return new this.Profile(profile).save()
   }
 }
