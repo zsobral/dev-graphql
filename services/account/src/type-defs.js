@@ -8,12 +8,6 @@ const typeDefs = gql`
     email: String!
     createdAt: DateTime!
   }
-
-  extend type Query {
-    account(id: String!): Account!
-    accounts: [Account]!
-    me: Account!
-  }
 `
 
 module.exports = typeDefs

@@ -19,7 +19,7 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createPost(text: String!, profileId: ID!): Post!
+    createPost(text: String!): Post!
   }
 `
 

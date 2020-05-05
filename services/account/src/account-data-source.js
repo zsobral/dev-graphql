@@ -11,10 +11,6 @@ class AccountDataSource extends DataSource {
     this.auth0 = auth0
   }
 
-  getAccounts() {
-    return this.auth0.getUsers()
-  }
-
   getAccountById(id) {
     return this.auth0.getUser({ id })
   }

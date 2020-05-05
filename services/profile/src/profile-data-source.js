@@ -31,7 +31,7 @@ class ProfileDataSource extends DataSource {
   }
 
   async createProfile(profile) {
-    const user = await this.auth0.getUser({ id: profile.accountId })
+    const user = await this.auth0.getUser({ id: profile._id })
     profile.avatar = user.picture
     return new this.Profile(profile).save()
   }

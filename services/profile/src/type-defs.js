@@ -11,23 +11,17 @@ const typeDefs = gql`
 
   extend type Account @key(fields: "id") {
     id: ID! @external
-    profile: Profile
   }
 
   extend type Query {
-    myProfile: Profile
-    profile(username: String, accountId: String): Profile
+    me: Profile
+    profile(username: String, id: String): Profile
     profiles: [Profile]!
   }
 
   extend type Mutation {
-    createProfile(username: String!, fullName: String, accountId: ID!): Profile
-    updateProfile(
-      username: String
-      fullName: String
-      avatar: String
-      profileId: ID!
-    ): Profile
+    createProfile(username: String!, fullName: String): Profile
+    updateProfile(username: String, fullName: String, avatar: String): Profile
   }
 `
 

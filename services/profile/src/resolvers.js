@@ -4,16 +4,10 @@ const resolvers = {
       return dataSources.profileAPI.getProfileById(reference.id)
     },
     account: (profile, args, context, info) => {
-      return { __typename: 'Account', id: profile.accountId }
+      return { __typename: 'Account', id: profile._id }
     },
     id: (profile, args, context, info) => {
       return profile._id
-    },
-  },
-
-  Account: {
-    profile: (account, args, { dataSources }, info) => {
-      return dataSources.profileAPI.getProfile({ accountId: account.id })
     },
   },
 
@@ -21,7 +15,7 @@ const resolvers = {
     profile: async (parent, args, { dataSources }, info) => {
       return dataSources.profileAPI.getProfile({
         ...(args.username && { username: args.username }),
-        ...(args.accountId && { accountId: args.accountId }),
+        ...(args.id && { _id: args.id }),
       })
     },
 
@@ -29,23 +23,22 @@ const resolvers = {
       return dataSources.profileAPI.getProfiles()
     },
 
-    myProfile: async (parent, args, { dataSources, user }, info) => {
-      return dataSources.profileAPI.getProfile({ accountId: user.sub })
+    me: async (parent, args, { dataSources, user }, info) => {
+      return dataSources.profileAPI.getProfile({ _id: user.sub })
     },
   },
 
   Mutation: {
     createProfile: async (parent, args, { dataSources, user }, info) => {
       return dataSources.profileAPI.createProfile({
-        accountId: user.sub,
+        _id: user.sub,
         username: args.username,
         fullName: args.fullName,
       })
     },
 
-    updateProfile: async (parent, args, { dataSources }, info) => {
-      const { profileId, ...data } = args
-      return dataSources.profileAPI.updateProfile(profileId, data)
+    updateProfile: async (parent, args, { dataSources, user }, info) => {
+      return dataSources.profileAPI.updateProfile(user.sub, args)
     },
   },
 }

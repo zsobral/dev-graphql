@@ -26,7 +26,7 @@ const resolvers = {
     createPost: async (parent, args, { dataSources, user }, info) => {
       return dataSources.contentAPI.createPost({
         text: args.text,
-        profileId: args.profileId,
+        profileId: user.sub,
       })
     },
   },
