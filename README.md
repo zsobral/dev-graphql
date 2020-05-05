@@ -6,9 +6,9 @@ My GraphQL reference was this awesome book https://8bit.press/book/advanced-grap
 
 The GraphQL server is build with Apollo Federation, with three services
 
-- **account
-- **profile
-- **content
+- account
+- profile
+- content
 
 ## To do:
 - [x] Authorization
