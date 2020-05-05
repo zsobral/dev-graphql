@@ -11,7 +11,7 @@ The GraphQL server is build with Apollo Federation, with three services
 - **content:** handle users posts and medias
 
 ## To do:
-- [ ] Authorization
+- [x] Authorization
 - [ ] Pagination
 - [ ] Dataloader
 
