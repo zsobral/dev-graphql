@@ -42,6 +42,11 @@ const resolvers = {
         fullName: args.fullName,
       })
     },
+
+    updateProfile: async (parent, args, { dataSources }, info) => {
+      const { profileId, ...data } = args
+      return dataSources.profileAPI.updateProfile(profileId, data)
+    },
   },
 }
 

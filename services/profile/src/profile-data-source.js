@@ -1,3 +1,4 @@
+const { UserInputError } = require('apollo-server')
 const { DataSource } = require('apollo-datasource')
 
 class ProfileDataSource extends DataSource {
@@ -33,6 +34,21 @@ class ProfileDataSource extends DataSource {
     const user = await this.auth0.getUser({ id: profile.accountId })
     profile.avatar = user.picture
     return new this.Profile(profile).save()
+  }
+
+  async updateProfile(profileId, { username, fullName }) {
+    if (!username && !fullName) {
+      throw new UserInputError('You must supply some profile data to update.')
+    }
+
+    const data = {
+      ...(username && { username }),
+      ...(fullName && { fullName }),
+    }
+
+    return this.Profile.findOneAndUpdate({ _id: profileId }, data, {
+      new: true,
+    }).exec()
   }
 }
 
