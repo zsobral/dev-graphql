@@ -1,11 +1,13 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
+  scalar DateTime
+
   type Post @key(fields: "id") {
     id: ID!
     text: String!
     profile: Profile!
-    createdAt: String!
+    createdAt: DateTime!
   }
 
   extend type Profile @key(fields: "id") {

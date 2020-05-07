@@ -1,4 +1,7 @@
+const { DateTimeResolver } = require('scalar')
+
 const resolvers = {
+  DateTime: DateTimeResolver,
   Post: {
     __resolveReference: async (reference, { dataSources }, info) => {
       return dataSources.getPostById(reference.id)
