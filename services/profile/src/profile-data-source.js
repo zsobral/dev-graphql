@@ -1,5 +1,7 @@
 const { UserInputError } = require('apollo-server')
 const { DataSource } = require('apollo-datasource')
+const DataLoader = require('dataloader')
+const Pagination = require('pagination')
 
 class ProfileDataSource extends DataSource {
   /**
@@ -12,6 +14,13 @@ class ProfileDataSource extends DataSource {
     super()
     this.Profile = Profile
     this.auth0 = auth0
+    this.pagination = new Pagination(Profile)
+    this.profileByIdLoader = new DataLoader(async (ids) => {
+      const profiles = await this.Profile.find({ _id: { $in: ids } }).exec()
+      return ids.map((id) =>
+        profiles.find((profile) => profile._id.toString() === id)
+      )
+    })
   }
 
   getUserById(id) {
@@ -19,15 +28,20 @@ class ProfileDataSource extends DataSource {
   }
 
   getProfileById(id) {
-    return this.Profile.findById(id).exec()
+    return this.profileByIdLoader.load(id)
   }
 
   getProfile(filter) {
     return this.Profile.findOne(filter).exec()
   }
 
-  getProfiles() {
-    return this.Profile.find({}).exec()
+  async getProfiles({ after, before, first, last, orderBy }) {
+    const sort = this._getProfileSort(orderBy)
+    const queryArgs = { after, before, first, last, sort }
+    const edges = await this.pagination.getEdges(queryArgs)
+    const pageInfo = this.pagination.getPageInfo(edges, queryArgs)
+
+    return { edges, pageInfo }
   }
 
   async createProfile(profile) {
@@ -49,6 +63,17 @@ class ProfileDataSource extends DataSource {
     return this.Profile.findOneAndUpdate({ _id: profileId }, data, {
       new: true,
     }).exec()
+  }
+
+  _getProfileSort(sortEnum) {
+    let sort = {}
+    if (sortEnum) {
+      const [field, direction] = sortEnum.split('_')
+      sort[field.toLowerCase()] = direction === 'DESC' ? -1 : 1
+    } else {
+      sort['username'] = 1
+    }
+    return sort
   }
 }
 

@@ -16,12 +16,58 @@ const typeDefs = gql`
   extend type Query {
     me: Profile
     profile(username: String, id: String): Profile
-    profiles: [Profile]!
+    profiles(
+      first: Int
+      after: String
+      last: Int
+      before: String
+      orderBy: ProfileOrderByInput
+    ): ProfileConnection
+  }
+
+  input CreateProfileInput {
+    username: String!
+    fullName: String
+  }
+
+  type CreateProfilePayload {
+    profile: Profile
+  }
+
+  input UpdateProfileInput {
+    username: String
+    fullName: String
+  }
+
+  type UpdateProfilePayload {
+    profile: Profile!
   }
 
   extend type Mutation {
-    createProfile(username: String!, fullName: String): Profile
-    updateProfile(username: String, fullName: String, avatar: String): Profile
+    createProfile(input: CreateProfileInput!): CreateProfilePayload
+    updateProfile(input: UpdateProfileInput!): UpdateProfilePayload
+  }
+
+  type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+  }
+
+  type ProfileConnection {
+    edges: [ProfileEdge]
+    pageInfo: PageInfo!
+  }
+
+  type ProfileEdge {
+    cursor: ID!
+    node: Profile!
+  }
+
+  enum ProfileOrderByInput {
+    USERNAME_ASC
+    USERNAME_DESC
   }
 `
 

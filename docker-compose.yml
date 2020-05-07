@@ -45,6 +45,10 @@ services:
   content-mongo:
     image: mongo:4.2-bionic
     restart: always
+    volumes:
+      - content-db:/data/db
+    logging:
+      driver: none
 
   profile:
     build:
@@ -62,3 +66,11 @@ services:
   profile-mongo:
     image: mongo:4.2-bionic
     restart: always
+    volumes:
+      - profile-db:/data/db
+    logging:
+      driver: none
+
+volumes:
+  profile-db:
+  content-db:

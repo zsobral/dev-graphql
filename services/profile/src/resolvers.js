@@ -20,7 +20,7 @@ const resolvers = {
     },
 
     profiles: async (parent, args, { dataSources }, info) => {
-      return dataSources.profileAPI.getProfiles()
+      return dataSources.profileAPI.getProfiles(args)
     },
 
     me: async (parent, args, { dataSources, user }, info) => {
@@ -29,16 +29,18 @@ const resolvers = {
   },
 
   Mutation: {
-    createProfile: async (parent, args, { dataSources, user }, info) => {
-      return dataSources.profileAPI.createProfile({
-        _id: user.sub,
-        username: args.username,
-        fullName: args.fullName,
-      })
+    createProfile: async (parent, { input }, { dataSources, user }, info) => {
+      return {
+        profile: await dataSources.profileAPI.createProfile({
+          _id: user.sub,
+          username: input.username,
+          fullName: input.fullName,
+        }),
+      }
     },
 
-    updateProfile: async (parent, args, { dataSources, user }, info) => {
-      return dataSources.profileAPI.updateProfile(user.sub, args)
+    updateProfile: async (parent, { input }, { dataSources, user }, info) => {
+      return dataSources.profileAPI.updateProfile(user.sub, input)
     },
   },
 }

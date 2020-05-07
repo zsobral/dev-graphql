@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 
 const initMongo = async () => {
+  mongoose.set('debug', process.env.NODE_ENV === 'development')
+
   const connectionUrl = process.env.MONGODB_URL
 
   mongoose.connect(connectionUrl, {

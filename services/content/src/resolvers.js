@@ -5,6 +5,7 @@ const resolvers = {
     },
     id: (post) => post._id,
     profile: (post) => ({ __typename: 'Profile', id: post.profileId }),
+    createdAt: (post) => new Date(post.createdAt).toISOString(),
   },
 
   Profile: {
@@ -18,16 +19,17 @@ const resolvers = {
       return dataSources.contentAPI.getPostById(args.id)
     },
     posts: async (parent, args, { dataSources }, info) => {
-      return dataSources.contentAPI.getPosts()
+      return dataSources.contentAPI.getPosts(args)
     },
   },
 
   Mutation: {
-    createPost: async (parent, args, { dataSources, user }, info) => {
-      return dataSources.contentAPI.createPost({
-        text: args.text,
+    createPost: async (parent, { input }, { dataSources, user }, info) => {
+      const post = await dataSources.contentAPI.createPost({
+        text: input.text,
         profileId: user.sub,
       })
+      return { post }
     },
   },
 }

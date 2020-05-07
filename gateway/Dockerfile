@@ -10,19 +10,15 @@ ARG PORT=3000
 ENV PORT $PORT
 EXPOSE $PORT 9229 9230
 
-# you'll likely want the latest npm, regardless of node version, for speed and fixes
-# but pin this version for the best stability
-RUN npm i npm@latest lerna@3 -g
-
 WORKDIR /app
 
-COPY lerna.json package*.json  ./
-COPY gateway/package*json ./gateway/
+COPY lerna.json package.json yarn.lock  ./
+COPY gateway/package.json ./gateway/
 
 RUN chown -R node:node /app
 USER node
 
-RUN lerna bootstrap -- --no-optional && npm cache clean --force
+RUN yarn && yarn run bootstrap
 
 ENV PATH /app/gateway/node_modules/.bin:$PATH
 
