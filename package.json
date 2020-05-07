@@ -6,8 +6,11 @@
     "gateway"
   ],
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.1.5",
+    "apollo-server-testing": "^2.13.0",
     "eslint": "^6.8.0",
     "husky": "^4.2.5",
+    "jest": "^26.0.1",
     "lerna": "^3.20.2",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1"
@@ -20,7 +23,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "lint": "eslint .",
-    "prettier": "prettier \"**/*.{md,css,scss,yaml,yml}\" --write"
+    "prettier": "prettier \"**/*.{md,css,scss,yaml,yml}\" --write",
+    "test": "jest"
   },
   "engines": {
     "node": ">=12"
