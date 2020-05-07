@@ -12,5 +12,6 @@ The GraphQL server is build with Apollo Federation, with three services
 - [x] Authorization
 - [x] Pagination
 - [x] Dataloader
+- [ ] Tests
 
 app repo https://github.com/zsobral/dev-app
