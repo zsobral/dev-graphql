@@ -4,9 +4,10 @@ const auth0 = require('../auth0')
 const Profile = require('../models/profile')
 const ProfileDataSource = require('../profile-data-source')
 
-jest.mock('auth0')
-jest.mock('../auth0', () => ({
-  getUser: jest.fn(),
+jest.mock('auth0', () => ({
+  ManagementClient: function () {
+    return { getUser: jest.fn() }
+  },
 }))
 
 describe('[profileAPI.getProfileById]', () => {
