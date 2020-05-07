@@ -12,7 +12,7 @@ EXPOSE $PORT 9229 9230
 
 WORKDIR /app
 
-COPY lerna.json package.json yarn.lock  ./
+COPY lerna.json package.json yarn.lock ./
 COPY gateway/package.json ./gateway/
 
 RUN chown -R node:node /app

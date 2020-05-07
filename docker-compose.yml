@@ -11,8 +11,8 @@ services:
     ports:
       - '80:3000'
     volumes:
-      - ./gateway:/app/gateway:delegated
-      - /app/gateway/node_modules
+      - ./gateway:/app/gateway
+      - gateway-node-modules:/app/gateway/node_modules
     env_file:
       - ./gateway/.env.development
 
@@ -25,7 +25,7 @@ services:
     command: nodemon src/index.js
     volumes:
       - ./services/account:/app/services/account
-      - /app/services/account/node_modules
+      - account-node-modules:/app/services/account/node_modules
     env_file:
       - ./services/account/.env.development
 
@@ -38,17 +38,9 @@ services:
     command: nodemon src/index.js
     volumes:
       - ./services/content:/app/services/content:delegated
-      - /app/services/content/node_modules
+      - content-node-modules:/app/services/content/node_modules
     env_file:
       - ./services/content/.env.development
-
-  content-mongo:
-    image: mongo:4.2-bionic
-    restart: always
-    volumes:
-      - content-db:/data/db
-    logging:
-      driver: none
 
   profile:
     build:
@@ -59,7 +51,7 @@ services:
     command: nodemon src/index.js
     volumes:
       - ./services/profile:/app/services/profile:delegated
-      - /app/services/profile/node_modules
+      - profile-node-modules:/app/services/profile/node_modules
     env_file:
       - ./services/profile/.env.development
 
@@ -71,6 +63,18 @@ services:
     logging:
       driver: none
 
+  content-mongo:
+    image: mongo:4.2-bionic
+    restart: always
+    volumes:
+      - content-db:/data/db
+    logging:
+      driver: none
+
 volumes:
   profile-db:
   content-db:
+  gateway-node-modules:
+  account-node-modules:
+  content-node-modules:
+  profile-node-modules:

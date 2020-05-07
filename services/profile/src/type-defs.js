@@ -15,7 +15,7 @@ const typeDefs = gql`
 
   extend type Query {
     me: Profile
-    profile(username: String, id: String): Profile
+    profile(username: String, id: ID): Profile
     profiles(
       first: Int
       after: String

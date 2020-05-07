@@ -8,7 +8,7 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-  await Profile.deleteMany({})
+  await Profile.deleteMany({}).exec()
 })
 
 afterAll(async () => {

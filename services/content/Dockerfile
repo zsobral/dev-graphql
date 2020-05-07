@@ -12,7 +12,7 @@ EXPOSE $PORT 9229 9230
 
 WORKDIR /app
 
-COPY lerna.json package.json yarn.lock  ./
+COPY lerna.json package.json yarn.lock ./
 COPY packages ./packages
 COPY services/content/package.json ./services/content/
 
